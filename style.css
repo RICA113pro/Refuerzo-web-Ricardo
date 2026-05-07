@@ -1,268 +1,406 @@
 /* ==============================================
    VARIABLES GLOBALES
-   Paleta, tipografía y espaciados del sitio
+   Paleta, tipografía y espaciados del sitio.
+   Definir todo aquí permite cambiar el diseño
+   completo modificando un solo lugar.
    ============================================== */
 :root {
-  --color-bg:        #0d0f14;
-  --color-surface:   #161a23;
-  --color-border:    #2a2f3d;
+  /* :root apunta al elemento <html>, el más alto del documento.
+     Las variables declaradas aquí son accesibles en TODO el CSS
+     usando var(--nombre-de-la-variable) */
 
-  --color-accent:    #00e5a0;   /* Verde neón principal */
-  --color-accent2:   #00aaff;   /* Azul eléctrico */
-  --color-warn:      #ff6b35;   /* Naranja / riesgo */
-  --color-info:      #a78bfa;   /* Violeta */
-  --color-danger:    #ff4d6d;   /* Rojo / peligro */
+  /* --- Colores de fondo y superficie --- */
+  --color-bg:        #0d0f14; /* Fondo principal: negro azulado muy oscuro */
+  --color-surface:   #161a23; /* Fondo de tarjetas/secciones alternas: un tono más claro */
+  --color-border:    #2a2f3d; /* Color de bordes sutiles entre elementos */
 
-  --color-text:      #e8eaf0;
-  --color-text-muted:#8890a4;
+  /* --- Colores de acento (identidad visual) --- */
+  --color-accent:    #00e5a0; /* Verde neón: botones, links activos, etiquetas */
+  --color-accent2:   #00aaff; /* Azul eléctrico: badges de normas ISO */
+  --color-warn:      #ff6b35; /* Naranja: riesgo, pasos de planes, hover de tarjetas */
+  --color-info:      #a78bfa; /* Violeta: tarjeta de credibilidad (Módulo 01) */
+  --color-danger:    #ff4d6d; /* Rojo: tarjeta de erogación de recursos (Módulo 01) */
 
-  --font-display:    'Space Mono', monospace;
-  --font-body:       'IBM Plex Sans', sans-serif;
+  /* --- Colores de texto --- */
+  --color-text:      #e8eaf0; /* Texto principal: blanco con leve tono azulado */
+  --color-text-muted:#8890a4; /* Texto secundario: gris medio para descripciones */
 
-  --radius:          8px;
-  --radius-lg:       16px;
-  --transition:      0.25s ease;
-  --max-width:       1100px;
+  /* --- Tipografías --- */
+  --font-display:    'Space Mono', monospace;   /* Títulos, etiquetas, números */
+  --font-body:       'IBM Plex Sans', sans-serif; /* Texto corrido, párrafos */
+
+  /* --- Espaciados y formas --- */
+  --radius:          8px;    /* Border-radius pequeño: botones, badges */
+  --radius-lg:       16px;   /* Border-radius grande: tarjetas, secciones */
+  --transition:      0.25s ease; /* Duración y curva de todas las animaciones */
+  --max-width:       1100px; /* Ancho máximo del contenido centrado */
 }
 
 
 /* ==============================================
    RESET BASE
+   Elimina los estilos por defecto del navegador
+   para tener control total del diseño.
    ============================================== */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after {
+  /* El selector * aplica a TODOS los elementos HTML.
+     ::before y ::after aplica también a sus pseudo-elementos */
+  box-sizing: border-box;
+  /* border-box: el padding y el borde se INCLUYEN dentro del ancho/alto
+     declarado. Sin esto, agregar padding haría el elemento más grande
+     de lo esperado, causando desbordamientos */
+  margin: 0;
+  padding: 0;
+  /* Elimina todos los márgenes y rellenos por defecto del navegador.
+     Sin esto, <h1> tendría margen arriba, <ul> tendría padding izquierdo, etc. */
+}
+
 html { scroll-behavior: smooth; }
-body { font-family: var(--font-body); background: var(--color-bg); color: var(--color-text); line-height: 1.7; font-size: 16px; }
+/* Una sola línea que hace que los saltos entre secciones
+   (al hacer clic en el menú) sean ANIMADOS y suaves en lugar
+   de instantáneos. Mejora considerablemente la experiencia de usuario */
+
+body {
+  font-family: var(--font-body);   /* Fuente base: IBM Plex Sans */
+  background: var(--color-bg);     /* Fondo oscuro en toda la página */
+  color: var(--color-text);        /* Color de texto claro por defecto */
+  line-height: 1.7;                /* Interlineado generoso = mejor legibilidad */
+  font-size: 16px;                 /* Base para todas las medidas en rem/em */
+}
+/* body establece los valores base heredados por TODOS los elementos hijos.
+   Si un elemento no declara su propio font-family, usará IBM Plex Sans */
+
 ul, ol { list-style: none; }
+/* Elimina los puntos y números de todas las listas del sitio.
+   Cada lista tiene su propio diseño con CSS (viñetas › en tool-features,
+   burbujas en plan-steps, etc.) */
+
 a { color: inherit; text-decoration: none; }
+/* Los enlaces heredan el color del elemento padre (en lugar del azul
+   por defecto del navegador) y no muestran subrayado. El estilo visual
+   de cada enlace se controla individualmente en su contexto */
 
 
 /* ==============================================
    BARRA DE NAVEGACIÓN
-   Fija, con fondo translúcido (glassmorphism)
+   Fija en pantalla, con fondo translúcido
+   estilo glassmorphism (cristal esmerilado).
    ============================================== */
 #navbar {
   position: fixed;
+  /* fixed: la barra se queda en su lugar aunque el usuario haga scroll.
+     Siempre visible en la parte superior de la pantalla */
   top: 0; left: 0; right: 0;
+  /* Ancla la barra a los tres bordes superiores de la ventana.
+     top:0 = pegada arriba, left:0 y right:0 = ocupa todo el ancho */
   z-index: 100;
+  /* z-index controla el orden de apilamiento. 100 garantiza que la
+     barra quede por encima de todo el contenido de la página */
   display: flex;
   align-items: center;
   justify-content: space-between;
+  /* flex + space-between: logo a la izquierda, links a la derecha */
   padding: 0.9rem 2rem;
   background: rgba(13, 15, 20, 0.9);
+  /* Fondo oscuro con 90% de opacidad: deja ver sutilmente el contenido
+     detrás de la barra cuando el usuario hace scroll */
   backdrop-filter: blur(12px);
+  /* Efecto GLASSMORPHISM: difumina (blur) lo que hay detrás de la barra.
+     Da sensación de cristal esmerilado. Funciona junto con el fondo semitransparente */
   border-bottom: 1px solid var(--color-border);
+  /* Línea divisoria sutil entre la barra y el contenido */
 }
 
-/* Logo */
+/* Logo / marca del sitio */
 .nav-brand {
   display: flex; align-items: center; gap: 0.5rem;
-  font-family: var(--font-display);
+  /* flex: coloca el ícono y el texto en línea con 0.5rem de separación */
+  font-family: var(--font-display); /* Space Mono para el logotipo */
   font-size: 1.05rem;
-  color: var(--color-accent);
+  color: var(--color-accent); /* Verde neón = identidad visual del logotipo */
 }
-.nav-icon { font-size: 1.2rem; }
+.nav-icon { font-size: 1.2rem; } /* Ícono emoji ligeramente más grande que el texto */
 
-/* Lista de links */
+/* Lista de links de navegación */
 .nav-links {
-  display: flex; gap: 1.5rem;
+  display: flex; gap: 1.5rem; /* Links en fila con separación entre ellos */
   font-size: 0.8rem;
   font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0.05em; /* Espaciado entre letras = aspecto más formal */
+  text-transform: uppercase; /* MAYÚSCULAS en todos los links del menú */
 }
+
 .nav-links a {
-  color: var(--color-text-muted);
-  transition: color var(--transition);
-  position: relative;
-  padding-bottom: 3px;
+  color: var(--color-text-muted); /* Gris por defecto = no activo */
+  transition: color var(--transition); /* Cambio de color animado al hacer hover */
+  position: relative; /* Necesario para posicionar el ::after absolutamente */
+  padding-bottom: 3px; /* Espacio entre el texto y la línea de subrayado */
 }
+
+/* Línea de subrayado animada que aparece al hacer hover */
 .nav-links a::after {
-  content: ''; position: absolute; bottom: 0; left: 0;
-  width: 0; height: 2px;
-  background: var(--color-accent);
-  transition: width var(--transition);
+  content: ''; /* El pseudo-elemento existe pero no tiene texto */
+  position: absolute; /* Posicionado respecto al <a> padre (que es relative) */
+  bottom: 0; left: 0; /* Pegado al borde inferior izquierdo del enlace */
+  width: 0; height: 2px; /* Invisible por defecto (ancho = 0) */
+  background: var(--color-accent); /* La línea es verde neón */
+  transition: width var(--transition); /* Anima el crecimiento del ancho */
 }
-.nav-links a:hover { color: var(--color-accent); }
+.nav-links a:hover { color: var(--color-accent); } /* Texto verde al hover */
 .nav-links a:hover::after { width: 100%; }
+/* Al hacer hover, la línea crece de 0% a 100% del ancho del texto.
+   Combinado con transition, crea el efecto de subrayado deslizante */
 
 
 /* ==============================================
-   HÉROE
+   HÉROE (portada)
+   Pantalla completa con gradiente, título grande
+   y texto decorativo de fondo.
    ============================================== */
 .hero {
   min-height: 100vh;
+  /* 100vh = 100% del alto de la ventana del navegador.
+     min-height (no height) permite que crezca si el contenido es mayor */
   display: flex; align-items: center;
+  /* flex + align-items:center: centra verticalmente el contenido del héroe */
   padding: 8rem 2rem 4rem;
+  /* 8rem arriba para no quedar debajo de la navbar fija (que mide ~60px),
+     2rem a los lados, 4rem abajo */
   position: relative; overflow: hidden;
+  /* relative: permite posicionar el texto decorativo (hero-deco) absolutamente.
+     overflow:hidden: oculta el texto deco que sobresale del contenedor */
   background:
     linear-gradient(135deg, rgba(0,229,160,0.05) 0%, transparent 50%),
     linear-gradient(225deg, rgba(0,170,255,0.05) 0%, transparent 50%),
     var(--color-bg);
+  /* Tres capas de fondo apiladas (la última tiene más prioridad visual):
+     1. Gradiente verde sutil desde arriba-derecha (5% opacidad)
+     2. Gradiente azul sutil desde abajo-derecha (5% opacidad)
+     3. Fondo oscuro base (#0d0f14)
+     Resultado: un aura de color casi imperceptible que da profundidad */
 }
-.hero-content { max-width: 700px; position: relative; z-index: 2; }
 
-/* Etiqueta pequeña */
+.hero-content { max-width: 700px; position: relative; z-index: 2; }
+/* max-width: 700px limita el ancho del texto para no tener líneas largas difíciles de leer.
+   z-index:2 lo coloca por encima del texto decorativo (z-index implícito) */
+
+/* Etiqueta pequeña sobre el título */
 .hero-label {
-  font-family: var(--font-display);
+  font-family: var(--font-display); /* Space Mono */
   font-size: 0.72rem;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.15em; /* Mucho espacio entre letras = estilo editorial */
   text-transform: uppercase;
-  color: var(--color-accent);
+  color: var(--color-accent); /* Verde neón */
   margin-bottom: 1rem;
 }
 
-/* Título principal */
+/* Título principal H1 */
 .hero-title {
   font-family: var(--font-display);
   font-size: clamp(2.4rem, 6vw, 4.2rem);
-  line-height: 1.1; font-weight: 700;
-  color: #fff; margin-bottom: 1.5rem;
+  /* clamp(mínimo, preferido, máximo): tipografía FLUIDA sin media queries.
+     En móvil nunca baja de 2.4rem.
+     En escritorio grande nunca sube de 4.2rem.
+     Entre esos extremos escala al 6% del ancho del viewport (6vw) */
+  line-height: 1.1; /* Interlineado apretado para títulos grandes */
+  font-weight: 700;
+  color: #fff; /* Blanco puro para máximo contraste */
+  margin-bottom: 1.5rem;
 }
+
 .highlight { color: var(--color-accent); }
+/* Clase de utilidad que colorea en verde cualquier texto envuelto en ella.
+   Se usa en el span dentro del h1 para resaltar "Aseguramiento" */
 
-/* Descripción */
 .hero-desc {
-  font-size: 1rem; color: var(--color-text-muted);
+  font-size: 1rem; color: var(--color-text-muted); /* Gris: texto secundario */
   max-width: 560px; margin-bottom: 2.5rem; font-weight: 300;
+  /* font-weight:300 = texto delgado, contrasta con el título bold */
 }
 
-/* Botón CTA */
+/* Botón principal (Call To Action) */
 .btn-primary {
-  display: inline-block;
-  padding: 0.85rem 2rem;
-  background: var(--color-accent);
-  color: #0d0f14;
+  display: inline-block; /* Permite padding en un elemento <a> */
+  padding: 0.85rem 2rem; /* Espacio interno cómodo para el botón */
+  background: var(--color-accent); /* Fondo verde neón */
+  color: #0d0f14; /* Texto oscuro sobre fondo verde = alto contraste */
   font-family: var(--font-display);
   font-size: 0.85rem; font-weight: 700;
-  letter-spacing: 0.06em; border-radius: var(--radius);
+  letter-spacing: 0.06em;
+  border-radius: var(--radius); /* Esquinas redondeadas de 8px */
   transition: transform var(--transition), box-shadow var(--transition);
+  /* Prepara las animaciones de hover para transform y box-shadow */
 }
 .btn-primary:hover {
   transform: translateY(-3px);
+  /* Mueve el botón 3px hacia ARRIBA al hacer hover.
+     Combinado con la sombra, da sensación de que "flota" */
   box-shadow: 0 12px 30px rgba(0,229,160,0.3);
+  /* Sombra verde difusa debajo del botón: refuerza la ilusión de elevación.
+     rgba con 0.3 de opacidad para que no sea agresiva visualmente */
 }
 
-/* Texto decorativo del héroe */
+/* Texto decorativo gigante de fondo en el héroe */
 .hero-deco {
   position: absolute; right: -1rem; top: 50%;
+  /* absolute: posicionado respecto al .hero (que es relative).
+     right:-1rem: ligeramente fuera del borde derecho.
+     top:50%: a la mitad del alto del héroe */
   transform: translateY(-50%);
+  /* translateY(-50%) junto con top:50% centra verticalmente el elemento
+     respecto a su propio alto (truco clásico de CSS para centrado vertical) */
   display: flex; flex-direction: column; gap: 0.5rem;
   font-family: var(--font-display); font-size: 5rem; font-weight: 700;
   color: rgba(255,255,255,0.025);
+  /* Blanco con solo 2.5% de opacidad: apenas visible, puramente decorativo */
   line-height: 1; user-select: none; pointer-events: none;
+  /* user-select:none: no se puede seleccionar como texto.
+     pointer-events:none: los clics pasan a través de él hacia el contenido debajo */
 }
 
 
 /* ==============================================
    LAYOUT GENERAL DE SECCIONES
+   Sistema de contenedores que centra el contenido
+   y alterna fondos entre módulos.
    ============================================== */
 .section { padding: 6rem 2rem; }
+/* Espaciado vertical generoso (6rem ≈ 96px) para que cada sección
+   "respire" y no se vea apretada */
+
 .section--dark { background-color: var(--color-surface); }
+/* Modificador que cambia el fondo a un tono más oscuro (#161a23).
+   Se alterna en secciones pares para crear ritmo visual sin bordes */
+
 .section--accent {
   background:
     linear-gradient(135deg, rgba(0,229,160,0.04) 0%, transparent 60%),
     var(--color-bg);
+  /* Gradiente verde muy sutil (4% opacidad) solo en el Módulo 05.
+     Da un cierre visual diferente al resto de las secciones */
 }
-.container { max-width: var(--max-width); margin: 0 auto; }
 
-/* Encabezado de sección */
+.container { max-width: var(--max-width); margin: 0 auto; }
+/* max-width: 1100px → en pantallas muy grandes el contenido no se estira.
+   margin: 0 auto → centra horizontalmente el contenido en la pantalla */
+
+/* Encabezado repetido en todos los módulos */
 .section-header { text-align: center; margin-bottom: 4rem; }
+/* Centra el tag, título y subtítulo. 4rem de separación antes del contenido */
+
 .section-tag {
   display: inline-block;
+  /* inline-block: permite padding en un elemento de línea (span) */
   font-family: var(--font-display);
   font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase;
   color: var(--color-accent);
-  background: rgba(0,229,160,0.08);
-  padding: 0.3rem 0.8rem; border-radius: 999px;
-  border: 1px solid rgba(0,229,160,0.2);
+  background: rgba(0,229,160,0.08); /* Fondo verde muy translúcido */
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px; /* 999px = forma de píldora perfecta */
+  border: 1px solid rgba(0,229,160,0.2); /* Borde verde sutil */
   margin-bottom: 1rem;
 }
+
 .section-title {
   font-family: var(--font-display);
-  font-size: clamp(1.7rem, 4vw, 2.8rem);
+  font-size: clamp(1.7rem, 4vw, 2.8rem); /* Fluido: escala con el viewport */
   color: #fff; margin-bottom: 1rem;
 }
+
 .section-sub {
-  color: var(--color-text-muted);
-  max-width: 560px; margin: 0 auto; font-size: 0.95rem;
+  color: var(--color-text-muted); /* Gris claro para texto descriptivo */
+  max-width: 560px; margin: 0 auto; /* Centrado con ancho limitado */
+  font-size: 0.95rem;
 }
 
 
 /* ==============================================
    TARJETAS DE RIESGO (Módulo 01)
+   Tres tarjetas en cuadrícula con línea de
+   color superior que varía según el tipo de riesgo.
    ============================================== */
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
+  /* auto-fit: crea tantas columnas como quepan.
+     minmax(280px, 1fr): cada columna tiene mínimo 280px y máximo 1 fracción.
+     En escritorio = 3 columnas. En móvil = 1 columna automáticamente */
+  gap: 1.5rem; /* Espacio de 24px entre tarjetas */
 }
 
-/* Tarjeta base */
 .card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  background: var(--color-surface); /* Fondo más oscuro que la sección */
+  border: 1px solid var(--color-border); /* Borde sutil */
+  border-radius: var(--radius-lg); /* Esquinas muy redondeadas (16px) */
   padding: 2rem;
   transition: transform var(--transition), box-shadow var(--transition);
   position: relative; overflow: hidden;
+  /* relative: para posicionar el ::before (línea superior) absolutamente.
+     overflow:hidden: recorta el ::before que se sale del card */
 }
-/* Línea de color superior según tipo */
+
+/* Línea de color en la parte superior de cada tarjeta */
 .card::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  content: ''; /* Existe pero sin texto */
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  /* Barra horizontal de 3px pegada al borde superior del card */
 }
-.card--rojo::before   { background: var(--color-danger); }
-.card--naranja::before{ background: var(--color-warn); }
-.card--morado::before { background: var(--color-info); }
+.card--rojo::before   { background: var(--color-danger); }  /* Rojo: erogación */
+.card--naranja::before{ background: var(--color-warn); }    /* Naranja: tiempo */
+.card--morado::before { background: var(--color-info); }    /* Violeta: credibilidad */
+/* Solo se sobreescribe el background. Base compartida, variantes mínimas (principio DRY) */
 
 .card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  transform: translateY(-6px); /* Sube 6px al hacer hover */
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3); /* Sombra oscura difusa = profundidad */
 }
-.card-icon  { font-size: 2.4rem; margin-bottom: 1rem; }
+.card-icon  { font-size: 2.4rem; margin-bottom: 1rem; } /* Emoji grande como ícono */
 .card-title { font-family: var(--font-display); font-size: 1.1rem; color: #fff; margin-bottom: 0.5rem; }
 .card-desc  { color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.6; }
 
 
 /* ==============================================
    BLOQUES DE NORMAS (Módulo 02)
-   Cada norma ocupa una fila horizontal
+   Cada norma: badge a la izquierda + texto a
+   la derecha. En móvil se apilan verticalmente.
    ============================================== */
 .norm-block {
   display: flex;
+  /* flex row: badge y cuerpo en línea horizontal */
   gap: 2rem;
-  align-items: flex-start;
+  align-items: flex-start; /* Alinea ambos al tope, no al centro */
   padding: 1.75rem 2rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  margin-bottom: 1.25rem;
-  background: rgba(255,255,255,0.02);
+  margin-bottom: 1.25rem; /* Separación entre bloques de normas */
+  background: rgba(255,255,255,0.02); /* Fondo casi transparente */
   transition: border-color var(--transition);
 }
 .norm-block:hover { border-color: var(--color-accent2); }
+/* Al hacer hover, el borde cambia de gris a azul eléctrico */
 
-/* Badge de la norma (ej. "ITIL v3") */
 .norm-badge {
   flex-shrink: 0;
-  min-width: 110px;
+  /* flex-shrink:0: el badge NO se encoge aunque el espacio sea pequeño.
+     Siempre mantiene su tamaño mínimo */
+  min-width: 110px; /* Ancho mínimo para que todos los badges se alineen */
   font-family: var(--font-display);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
   text-align: center;
   padding: 0.5rem 0.75rem;
-  background: rgba(0,170,255,0.1);
+  background: rgba(0,170,255,0.1); /* Fondo azul muy translúcido */
   border: 1px solid rgba(0,170,255,0.25);
-  color: var(--color-accent2);
+  color: var(--color-accent2); /* Texto azul eléctrico */
   border-radius: var(--radius);
-  margin-top: 4px;
+  margin-top: 4px; /* Pequeño ajuste para alinear con el texto del h3 */
 }
 
-/* Cuerpo de texto de la norma */
 .norm-body h3 {
-  font-family: var(--font-display);
-  font-size: 1rem; color: #fff; margin-bottom: 0.5rem;
+  font-family: var(--font-display); font-size: 1rem;
+  color: #fff; margin-bottom: 0.5rem;
 }
 .norm-en { font-size: 0.8rem; color: var(--color-text-muted); }
+/* Nombre en inglés: más pequeño y en gris, sin llamar demasiado la atención */
 .norm-body p { color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.7; }
 
 
@@ -272,6 +410,8 @@ a { color: inherit; text-decoration: none; }
 .tools-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  /* Similar a cards-grid pero columnas más anchas (300px mín)
+     porque las tarjetas contienen más información (listas de características) */
   gap: 1.5rem;
 }
 
@@ -283,39 +423,35 @@ a { color: inherit; text-decoration: none; }
   transition: border-color var(--transition), transform var(--transition);
 }
 .tool-card:hover {
-  border-color: var(--color-accent);
-  transform: translateY(-4px);
+  border-color: var(--color-accent); /* Borde verde al hover */
+  transform: translateY(-4px); /* Elevación más suave que las cards (4px vs 6px) */
 }
 
-/* Encabezado de la tarjeta de herramienta */
 .tool-header {
   display: flex; gap: 1rem; align-items: flex-start;
   margin-bottom: 1rem;
+  /* flex row: ícono emoji + bloque de nombre/tipo en línea horizontal */
 }
 .tool-icon { font-size: 2rem; flex-shrink: 0; }
-.tool-name {
-  font-family: var(--font-display); font-size: 1rem;
-  color: #fff; margin-bottom: 0.2rem;
-}
-.tool-type {
-  font-size: 0.72rem; font-family: var(--font-display);
-  color: var(--color-accent); letter-spacing: 0.05em;
-}
+/* flex-shrink:0: el ícono nunca se encoge aunque el espacio sea pequeño */
+.tool-name { font-family: var(--font-display); font-size: 1rem; color: #fff; margin-bottom: 0.2rem; }
+.tool-type { font-size: 0.72rem; font-family: var(--font-display); color: var(--color-accent); letter-spacing: 0.05em; }
 
-.tool-desc {
-  color: var(--color-text-muted); font-size: 0.88rem;
-  line-height: 1.65; margin-bottom: 1rem;
-}
+.tool-desc { color: var(--color-text-muted); font-size: 0.88rem; line-height: 1.65; margin-bottom: 1rem; }
 
-/* Lista de características */
 .tool-features { display: flex; flex-direction: column; gap: 0.4rem; }
+/* flex column: lista vertical de características con separación entre ítems */
+
 .tool-features li {
   font-size: 0.85rem; color: var(--color-text);
-  padding-left: 1.1rem; position: relative;
+  padding-left: 1.1rem; /* Espacio para la viñeta generada con ::before */
+  position: relative; /* Necesario para posicionar el ::before absolutamente */
 }
 .tool-features li::before {
-  content: '›'; position: absolute; left: 0;
+  content: '›'; /* Carácter chevron como viñeta decorativa */
+  position: absolute; left: 0; /* Pegado al borde izquierdo del li */
   color: var(--color-accent); font-weight: 700;
+  /* Verde y negrita. Generado por CSS = fácil de cambiar en un solo lugar */
 }
 
 
@@ -325,62 +461,67 @@ a { color: inherit; text-decoration: none; }
 .plans-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  /* 320px mínimo: las tarjetas de planes son las más anchas del sitio
+     porque contienen listas de pasos más largas */
   gap: 1.5rem;
 }
 
 .plan-card {
-  background: rgba(255,255,255,0.03);
+  background: rgba(255,255,255,0.03); /* Fondo casi invisible */
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   padding: 2rem;
   transition: border-color var(--transition);
 }
 .plan-card:hover { border-color: var(--color-warn); }
+/* Al hover el borde cambia a naranja, que es el color de los step-n */
 
 .plan-icon { font-size: 2.5rem; margin-bottom: 1rem; }
-.plan-card h3 {
-  font-family: var(--font-display); font-size: 1rem;
-  color: #fff; margin-bottom: 0.3rem;
-}
+.plan-card h3 { font-family: var(--font-display); font-size: 1rem; color: #fff; margin-bottom: 0.3rem; }
 .plan-sub {
-  display: block; font-size: 0.75rem;
-  color: var(--color-text-muted); font-weight: 400;
-  margin-top: 0.2rem;
+  display: block; /* block para que ocupe su propia línea debajo del h3 */
+  font-size: 0.75rem; color: var(--color-text-muted); font-weight: 400; margin-top: 0.2rem;
 }
 .plan-card > p {
-  color: var(--color-text-muted); font-size: 0.88rem;
-  line-height: 1.65; margin: 0.75rem 0 1.25rem;
+  /* El selector > p selecciona solo el párrafo HIJO DIRECTO del plan-card,
+     no los párrafos que puedan estar dentro de plan-steps */
+  color: var(--color-text-muted); font-size: 0.88rem; line-height: 1.65; margin: 0.75rem 0 1.25rem;
 }
 
-/* Pasos del plan */
 .plan-steps { display: flex; flex-direction: column; gap: 0.6rem; }
+/* flex column: lista vertical de pasos con pequeña separación */
+
 .step {
   display: flex; gap: 0.75rem; align-items: flex-start;
+  /* flex row: número/badge + texto del paso en horizontal */
   font-size: 0.85rem; color: var(--color-text);
 }
 .step-n {
-  flex-shrink: 0;
+  flex-shrink: 0; /* El badge numeral no se encoge */
   font-family: var(--font-display); font-size: 0.75rem;
-  color: var(--color-warn);
-  background: rgba(255,107,53,0.1);
+  color: var(--color-warn); /* Naranja = mismo color del borde hover */
+  background: rgba(255,107,53,0.1); /* Naranja muy translúcido de fondo */
   border: 1px solid rgba(255,107,53,0.2);
   padding: 0.15rem 0.5rem; border-radius: 4px;
-  margin-top: 2px;
+  margin-top: 2px; /* Ajuste fino para alinear con la primera línea del texto */
 }
 
 
 /* ==============================================
    CUADRÍCULA DE CALIDAD (Módulo 05)
+   Cuatro ítems centrados con ícono y texto.
    ============================================== */
 .quality-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  /* 220px mínimo: ítems más compactos que las tarjetas anteriores.
+     Resulta en 4 columnas en escritorio, 2 en tablet, 1 en móvil */
   gap: 1.5rem;
-  margin-bottom: 3rem;
+  margin-bottom: 3rem; /* Espacio antes de la caja de estrategias */
 }
 
 .quality-item {
-  text-align: center;
+  text-align: center; /* Centra ícono, título y texto */
   padding: 2rem 1.5rem;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -389,41 +530,50 @@ a { color: inherit; text-decoration: none; }
 }
 .quality-item:hover {
   transform: translateY(-4px);
-  border-color: var(--color-accent);
+  border-color: var(--color-accent); /* Verde al hover */
 }
 .quality-icon { font-size: 2.4rem; margin-bottom: 0.75rem; }
-.quality-item h3 {
-  font-family: var(--font-display); font-size: 0.95rem;
-  color: #fff; margin-bottom: 0.5rem;
-}
+.quality-item h3 { font-family: var(--font-display); font-size: 0.95rem; color: #fff; margin-bottom: 0.5rem; }
 .quality-item p { color: var(--color-text-muted); font-size: 0.85rem; line-height: 1.6; }
 
 
 /* ==============================================
    CAJA DE ESTRATEGIAS DE SOLUCIÓN
+   Lista de 5 estrategias numeradas. Cada ítem
+   tiene un separador inferior excepto el último.
    ============================================== */
 .strategy-box {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   padding: 2.5rem;
+  /* Contenedor completo que agrupa todas las estrategias */
 }
 .strategy-title {
-  font-family: var(--font-display);
-  font-size: 1rem; color: var(--color-accent);
+  font-family: var(--font-display); font-size: 1rem;
+  color: var(--color-accent); /* Verde neón como título de la caja */
   margin-bottom: 2rem;
 }
 .strategy-list { display: flex; flex-direction: column; }
+/* flex column sin gap: el espacio entre ítems lo crea el padding de cada strategy-item */
+
 .strategy-item {
   display: flex; gap: 1.5rem; align-items: flex-start;
-  padding: 1.25rem 0;
+  padding: 1.25rem 0; /* Padding vertical dentro de cada fila */
   border-bottom: 1px solid var(--color-border);
+  /* Línea divisoria entre estrategias. El último ítem la elimina con :last-child */
 }
 .strategy-item:last-child { border-bottom: none; }
+/* :last-child: selector que apunta al ÚLTIMO elemento del tipo dentro del padre.
+   Elimina la línea del fondo en la última estrategia para no tener línea en el borde */
+
 .s-num {
   flex-shrink: 0;
   font-family: var(--font-display); font-size: 1.4rem;
-  font-weight: 700; color: var(--color-accent); min-width: 36px;
+  font-weight: 700; color: var(--color-accent); /* Verde neón grande */
+  min-width: 36px;
+  /* min-width:36px garantiza que todos los números tengan el mismo espacio,
+     manteniendo los textos de estrategias alineados verticalmente */
 }
 .strategy-item p { color: var(--color-text); font-size: 0.92rem; line-height: 1.6; }
 
@@ -435,43 +585,57 @@ a { color: inherit; text-decoration: none; }
   text-align: center;
   padding: 3rem 2rem;
   background: var(--color-surface);
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid var(--color-border); /* Línea separadora superior */
   color: var(--color-text-muted); font-size: 0.875rem;
 }
 .footer-sub {
   margin-top: 0.5rem; font-size: 0.72rem;
-  opacity: 0.5; font-family: var(--font-display);
+  opacity: 0.5; /* 50% transparente: apenas visible, texto de créditos */
+  font-family: var(--font-display); /* Space Mono para la nota técnica */
 }
 
 
 /* ==============================================
    DISEÑO RESPONSIVO — móviles (max 768px)
+   Ajustes para pantallas de smartphones y
+   tablets pequeñas. 768px ≈ iPad portrait.
    ============================================== */
 @media (max-width: 768px) {
+/* Todo lo que esté dentro de este bloque solo aplica cuando
+   el viewport mide 768px o menos */
 
-  /* Menú apilado verticalmente */
+  /* Menú apilado verticalmente en móvil */
   #navbar {
-    flex-direction: column; gap: 0.6rem; padding: 0.75rem 1rem;
+    flex-direction: column; /* Logo arriba, links abajo */
+    gap: 0.6rem; padding: 0.75rem 1rem;
   }
   .nav-links { gap: 0.75rem; flex-wrap: wrap; justify-content: center; }
+  /* flex-wrap:wrap: los links se envuelven en varias líneas si no caben en una.
+     justify-content:center: centrados horizontalmente */
 
-  /* Héroe con menos padding */
+  /* Héroe con menos padding en móvil (menos espacio disponible) */
   .hero { padding: 7rem 1.25rem 3rem; }
   .hero-deco { display: none; }
+  /* El texto decorativo gigante se oculta en móvil: no hay espacio
+     y quedaría encima del texto principal */
 
-  /* Secciones con menos padding */
+  /* Secciones con menos padding vertical en móvil */
   .section { padding: 4rem 1.25rem; }
 
-  /* Bloques de normas apilados verticalmente */
+  /* Bloques de normas: de horizontal a vertical */
   .norm-block { flex-direction: column; gap: 1rem; }
+  /* flex-direction:column: badge arriba, cuerpo abajo (en lugar de lado a lado) */
   .norm-badge { min-width: auto; width: fit-content; }
+  /* En móvil el badge no necesita el ancho mínimo de escritorio */
 
-  /* Grillas en una sola columna */
+  /* Todas las cuadrículas colapsan a UNA sola columna */
   .cards-grid,
   .tools-grid,
   .plans-grid,
   .quality-grid { grid-template-columns: 1fr; }
+  /* 1fr = una sola columna que ocupa todo el ancho disponible.
+     Evita tarjetas aplastadas o con texto ilegible en pantallas pequeñas */
 
-  /* Estrategias con menos gap */
+  /* Estrategias con menos separación entre número y texto */
   .strategy-item { gap: 1rem; }
 }
