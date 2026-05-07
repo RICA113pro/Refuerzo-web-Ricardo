@@ -1,14 +1,489 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ejemplo página web básica</title>
- <h1> Ejercicio de Ricardo</h1>
+  <!-- =============================================
+       META Y CONFIGURACIÓN BÁSICA
+  ============================================= -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Operación y Aseguramiento de Sistemas Informáticos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=IBM+Plex+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- En esta parte se coloca todo lo que va a contener la página web --> 
-    <p> este es mi segundo repositorio con este archivo modificado 
+
+  <!-- =============================================
+       BARRA DE NAVEGACIÓN FIJA
+       5 módulos + inicio
+  ============================================= -->
+  <nav id="navbar">
+    <div class="nav-brand">
+      <span class="nav-icon">⚙️</span>
+      <span class="nav-title">SysOps</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#intro">Inicio</a></li>
+      <li><a href="#riesgos">Riesgos</a></li>
+      <li><a href="#marcos">Normas</a></li>
+      <li><a href="#herramientas">Herramientas</a></li>
+      <li><a href="#planes">Planes</a></li>
+      <li><a href="#calidad">Calidad</a></li>
+    </ul>
+  </nav>
+
+
+  <!-- =============================================
+       HÉROE — Presentación del proyecto
+  ============================================= -->
+  <header id="intro" class="hero">
+    <div class="hero-content">
+      <p class="hero-label">Proyecto de investigación documental</p>
+      <h1 class="hero-title">
+        Operación y<br />
+        <span class="highlight">Aseguramiento</span><br />
+        de Sistemas TI
+      </h1>
+      <p class="hero-desc">
+        Investigación sobre actividades, estándares y herramientas que
+        garantizan el funcionamiento continuo y seguro de los sistemas
+        informáticos, minimizando riesgos de falla y su costo de oportunidad.
+      </p>
+      <a href="#riesgos" class="btn-primary">Ver investigación</a>
+    </div>
+    <!-- Texto decorativo de fondo -->
+    <div class="hero-deco" aria-hidden="true">
+      <span>SLA</span><span>ISO</span><span>ITIL</span>
+    </div>
+  </header>
+
+
+  <!-- =============================================
+       MÓDULO 01 — RIESGOS EN LA OPERACIÓN
+  ============================================= -->
+  <section id="riesgos" class="section">
+    <div class="container">
+
+      <div class="section-header">
+        <span class="section-tag">⚠️ Módulo 01</span>
+        <h2 class="section-title">Riesgos en la Operación de Sistemas</h2>
+        <p class="section-sub">
+          Las actividades de operación TI tienen un <strong>riesgo latente de falla</strong>
+          que al materializarse genera consecuencias graves para la organización.
+        </p>
+      </div>
+
+      <div class="cards-grid">
+
+        <!-- Tarjeta 1: Erogación de recursos -->
+        <article class="card card--rojo">
+          <div class="card-icon">💸</div>
+          <h3 class="card-title">Erogación de Recursos</h3>
+          <p class="card-desc">
+            Una falla no gestionada obliga a destinar presupuesto urgente para
+            reparaciones, reemplazos de hardware o contratación de especialistas,
+            incrementando los costos operativos de forma imprevista y no
+            planificada.
+          </p>
+        </article>
+
+        <!-- Tarjeta 2: Pérdida de tiempo -->
+        <article class="card card--naranja">
+          <div class="card-icon">⏳</div>
+          <h3 class="card-title">Pérdida de Tiempo</h3>
+          <p class="card-desc">
+            El tiempo de inactividad (downtime) afecta la productividad de
+            todos los usuarios que dependen del sistema. Cada hora fuera de
+            servicio representa procesos detenidos y metas incumplidas.
+          </p>
+        </article>
+
+        <!-- Tarjeta 3: Credibilidad -->
+        <article class="card card--morado">
+          <div class="card-icon">📉</div>
+          <h3 class="card-title">Credibilidad y Costo de Oportunidad</h3>
+          <p class="card-desc">
+            Las fallas frecuentes erosionan la confianza de clientes y socios.
+            El costo de oportunidad representa todo lo que se deja de obtener
+            mientras el sistema permanece fuera de operación.
+          </p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =============================================
+       MÓDULO 02 — MARCOS Y NORMAS ISO
+       SLA · ITIL v3 · ISO 17799 · ISO 14001
+       ISO 31000 · ISO 20000
+  ============================================= -->
+  <section id="marcos" class="section section--dark">
+    <div class="container">
+
+      <div class="section-header">
+        <span class="section-tag">📋 Módulo 02</span>
+        <h2 class="section-title">Marcos de Referencia y Normas ISO</h2>
+        <p class="section-sub">
+          Estándares internacionales que guían la <strong>gestión segura y eficiente</strong>
+          de los servicios y sistemas de TI.
+        </p>
+      </div>
+
+      <!-- SLA -->
+      <div class="norm-block">
+        <div class="norm-badge">SLA</div>
+        <div class="norm-body">
+          <h3>Acuerdo de Nivel de Servicio
+            <span class="norm-en">(Service Level Agreement)</span>
+          </h3>
+          <p>
+            Contrato formal entre el proveedor de servicios TI y el cliente que
+            define los niveles de disponibilidad, rendimiento y calidad
+            comprometidos. Incluye métricas como el porcentaje de tiempo operativo
+            (ej. 99.9% = tres nueves) y los tiempos máximos de respuesta ante
+            incidentes. Dentro de ITIL v3, la Gestión del Nivel de Servicio es
+            responsable de negociar, documentar y supervisar el cumplimiento
+            de estos acuerdos.
+          </p>
+        </div>
+      </div>
+
+      <!-- ITIL v3 -->
+      <div class="norm-block">
+        <div class="norm-badge">ITIL v3</div>
+        <div class="norm-body">
+          <h3>Biblioteca de Infraestructura de TI
+            <span class="norm-en">(IT Infrastructure Library)</span>
+          </h3>
+          <p>
+            Publicado en 2007, ITIL v3 estructura la gestión de servicios TI en
+            cinco fases del ciclo de vida: <strong>Estrategia, Diseño, Transición,
+            Operación y Mejora Continua</strong>. Su objetivo es alinear la tecnología
+            con las necesidades del negocio. La fase de Operación supervisa
+            diariamente los servicios, gestiona interrupciones y atiende
+            solicitudes de usuarios. Una organización que implementa ITIL puede
+            certificarse bajo ISO/IEC 20000.
+          </p>
+        </div>
+      </div>
+
+      <!-- ISO 17799 -->
+      <div class="norm-block">
+        <div class="norm-badge">ISO/IEC 17799</div>
+        <div class="norm-body">
+          <h3>Código de Buenas Prácticas para Seguridad de la Información</h3>
+          <p>
+            Publicada en 2000 y renombrada ISO/IEC 27002 en 2007. Define diez
+            dominios de control: política de seguridad, organización, clasificación
+            de activos, seguridad del personal, seguridad física, gestión de
+            comunicaciones, control de acceso, desarrollo de sistemas, continuidad
+            del negocio y cumplimiento legal. Busca preservar la
+            <strong>confidencialidad, integridad y disponibilidad</strong> de
+            la información en cualquier tipo de organización.
+          </p>
+        </div>
+      </div>
+
+      <!-- ISO 14001 -->
+      <div class="norm-block">
+        <div class="norm-badge">ISO 14001</div>
+        <div class="norm-body">
+          <h3>Sistema de Gestión Ambiental</h3>
+          <p>
+            Norma de gestión ambiental relevante en TI porque los centros de
+            datos tienen un impacto medioambiental considerable (consumo
+            energético, residuos electrónicos). Puede integrarse con ISO 9001
+            e ISO 27001 en un marco de gestión unificado, permitiendo a las
+            organizaciones manejar calidad, seguridad y sostenibilidad de
+            forma coherente.
+          </p>
+        </div>
+      </div>
+
+      <!-- ISO 31000 -->
+      <div class="norm-block">
+        <div class="norm-badge">ISO 31000</div>
+        <div class="norm-body">
+          <h3>Gestión de Riesgos</h3>
+          <p>
+            Estándar internacional (revisado en 2018) con principios, marco y
+            procesos para gestionar riesgos en toda la organización. En TI,
+            ayuda a identificar amenazas como malware, ataques DDoS, fallos de
+            hardware y errores humanos, definiendo controles para mitigarlos.
+            No es certificable, pero se usa como referencia global y se alinea
+            con ISO 27001. Su proceso es iterativo: identificar → analizar →
+            evaluar → tratar → monitorear.
+          </p>
+        </div>
+      </div>
+
+      <!-- ISO 20000 -->
+      <div class="norm-block">
+        <div class="norm-badge">ISO/IEC 20000</div>
+        <div class="norm-body">
+          <h3>Gestión de Servicios de TI</h3>
+          <p>
+            Norma internacional certificable para la gestión de servicios TI.
+            Está alineada con ITIL: ISO 20000 indica el <em>"qué"</em> cumplir
+            e ITIL describe el <em>"cómo"</em> lograrlo. Exige definir, acordar
+            y cumplir los niveles de servicio pactados, incluyendo gestión de
+            incidentes, problemas, cambios y continuidad del servicio. Es el
+            estándar que respalda la excelencia operativa en organizaciones TI.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =============================================
+       MÓDULO 03 — HERRAMIENTAS
+       Bugzilla · Monitoreo · Registro de incidentes
+  ============================================= -->
+  <section id="herramientas" class="section">
+    <div class="container">
+
+      <div class="section-header">
+        <span class="section-tag">🛠️ Módulo 03</span>
+        <h2 class="section-title">Herramientas de Gestión y Monitoreo</h2>
+        <p class="section-sub">
+          Herramientas utilizadas para <strong>registrar incidentes y
+          monitorear</strong> el rendimiento de los sistemas informáticos.
+        </p>
+      </div>
+
+      <div class="tools-grid">
+
+        <!-- Bugzilla -->
+        <div class="tool-card">
+          <div class="tool-header">
+            <span class="tool-icon">🐛</span>
+            <div>
+              <h3 class="tool-name">Bugzilla</h3>
+              <span class="tool-type">Registro de Incidentes · Bug Tracking</span>
+            </div>
+          </div>
+          <p class="tool-desc">
+            Herramienta web de código abierto desarrollada por la Fundación
+            Mozilla en 1998 para el <strong>seguimiento de errores y defectos</strong>
+            en software. Permite registrar fallos, asignarlos a responsables,
+            categorizar su severidad y hacer seguimiento hasta su resolución.
+            Es gratuita y usada por cientos de organizaciones como base de
+            su gestión de incidentes.
+          </p>
+          <ul class="tool-features">
+            <li>Seguimiento de múltiples productos y versiones</li>
+            <li>Clasificación por prioridad: bloqueador, crítico, mayor, menor</li>
+            <li>Asignación de responsables, comentarios y adjuntos</li>
+            <li>Reportes e integración con correo electrónico</li>
+            <li>Código abierto bajo Licencia Pública de Mozilla</li>
+          </ul>
+        </div>
+
+        <!-- Monitoreo -->
+        <div class="tool-card">
+          <div class="tool-header">
+            <span class="tool-icon">📡</span>
+            <div>
+              <h3 class="tool-name">Herramientas de Monitoreo</h3>
+              <span class="tool-type">Supervisión Continua del Sistema</span>
+            </div>
+          </div>
+          <p class="tool-desc">
+            Permiten supervisar el estado de servidores, redes y aplicaciones
+            en tiempo real, detectando anomalías de forma temprana antes de
+            que generen una interrupción del servicio.
+          </p>
+          <ul class="tool-features">
+            <li><strong>Nagios / Zabbix:</strong> monitoreo de servidores y redes</li>
+            <li><strong>Prometheus + Grafana:</strong> métricas y visualización</li>
+            <li><strong>PRTG Network Monitor:</strong> supervisión de infraestructura</li>
+            <li><strong>New Relic / Datadog:</strong> rendimiento de aplicaciones</li>
+            <li>Alertas automáticas ante umbrales críticos de CPU, RAM o disco</li>
+          </ul>
+        </div>
+
+        <!-- Gestión de incidentes -->
+        <div class="tool-card">
+          <div class="tool-header">
+            <span class="tool-icon">📝</span>
+            <div>
+              <h3 class="tool-name">Gestión de Incidentes (ITIL)</h3>
+              <span class="tool-type">Proceso ITSM · Help Desk</span>
+            </div>
+          </div>
+          <p class="tool-desc">
+            Siguiendo las prácticas de ITIL, la gestión de incidentes sigue
+            cuatro fases para restaurar el servicio lo más rápido posible.
+          </p>
+          <ul class="tool-features">
+            <li><strong>Identificación:</strong> detectar el incidente y su alcance</li>
+            <li><strong>Contención:</strong> evitar que se propague a otros sistemas</li>
+            <li><strong>Mitigación:</strong> eliminar elementos comprometidos o restaurar</li>
+            <li><strong>Recuperación:</strong> retornar la operación a su estado normal</li>
+            <li>Plataformas: Jira Service Mgmt, OTRS, MantisBT, ServiceNow</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =============================================
+       MÓDULO 04 — PLANES CONTINGENCIALES
+  ============================================= -->
+  <section id="planes" class="section section--dark">
+    <div class="container">
+
+      <div class="section-header">
+        <span class="section-tag">🗂️ Módulo 04</span>
+        <h2 class="section-title">Planes Contingenciales y de Operación</h2>
+        <p class="section-sub">
+          Documentos que definen cómo actuar <strong>antes, durante y después</strong>
+          de una interrupción o desastre en los sistemas informáticos.
+        </p>
+      </div>
+
+      <div class="plans-grid">
+
+        <!-- Plan de Contingencia -->
+        <div class="plan-card">
+          <div class="plan-icon">🚨</div>
+          <h3>Plan de Contingencia
+            <span class="plan-sub">(Disaster Recovery Plan)</span>
+          </h3>
+          <p>
+            Garantiza la continuidad del funcionamiento controlando y
+            minimizando cualquier emergencia y sus consecuencias. Vinculado
+            con ISO 27001 e ITIL para recuperarse de desastres informáticos.
+          </p>
+          <div class="plan-steps">
+            <div class="step"><span class="step-n">1</span><span>Identificación y evaluación de riesgos</span></div>
+            <div class="step"><span class="step-n">2</span><span>Planificación de la respuesta</span></div>
+            <div class="step"><span class="step-n">3</span><span>Pruebas de viabilidad del plan</span></div>
+            <div class="step"><span class="step-n">4</span><span>Ejecución y revisión continua</span></div>
+          </div>
+        </div>
+
+        <!-- Plan de Continuidad -->
+        <div class="plan-card">
+          <div class="plan-icon">🔄</div>
+          <h3>Plan de Continuidad del Negocio
+            <span class="plan-sub">(BCP)</span>
+          </h3>
+          <p>
+            Define cómo la organización recupera sus funciones críticas dentro
+            de un tiempo predeterminado tras una interrupción: pandemia, desastre
+            natural, ataque informático o fallo de infraestructura.
+          </p>
+          <div class="plan-steps">
+            <div class="step"><span class="step-n">✔</span><span>Análisis de Impacto al Negocio (BIA)</span></div>
+            <div class="step"><span class="step-n">✔</span><span>Identificación de funciones críticas</span></div>
+            <div class="step"><span class="step-n">✔</span><span>Estrategias de recuperación definidas</span></div>
+            <div class="step"><span class="step-n">✔</span><span>Pruebas y simulacros periódicos</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =============================================
+       MÓDULO 05 — ASEGURAMIENTO DE CALIDAD
+  ============================================= -->
+  <section id="calidad" class="section section--accent">
+    <div class="container">
+
+      <div class="section-header">
+        <span class="section-tag">🏅 Módulo 05</span>
+        <h2 class="section-title">Aseguramiento de la Calidad en Software</h2>
+        <p class="section-sub">
+          Estrategias y ejemplos para garantizar que el software y los servicios
+          TI cumplan estándares de calidad con ejemplos de estandarización,
+          pruebas y mejores prácticas.
+        </p>
+      </div>
+
+      <!-- Cuatro pilares -->
+      <div class="quality-grid">
+
+        <div class="quality-item">
+          <span class="quality-icon">📐</span>
+          <h3>Estandarización</h3>
+          <p>Aplicar ISO 9001 (gestión de calidad) e ISO/IEC 25010 (calidad del
+          producto software) para definir requisitos medibles de funcionalidad,
+          fiabilidad, usabilidad y mantenibilidad.</p>
+        </div>
+
+        <div class="quality-item">
+          <span class="quality-icon">✅</span>
+          <h3>Mejores Prácticas</h3>
+          <p>Adoptar CMMI (Capability Maturity Model Integration) para evaluar y
+          mejorar los procesos de desarrollo. Incluye revisiones de código,
+          documentación actualizada y control de versiones.</p>
+        </div>
+
+        <div class="quality-item">
+          <span class="quality-icon">🧪</span>
+          <h3>Pruebas de Software</h3>
+          <p>Pruebas unitarias, de integración, rendimiento y seguridad para
+          detectar defectos antes de que lleguen al usuario final.
+          Herramientas: JUnit, Selenium, JMeter, SonarQube.</p>
+        </div>
+
+        <div class="quality-item">
+          <span class="quality-icon">🔁</span>
+          <h3>Mejora Continua (CSI)</h3>
+          <p>El proceso CSI de ITIL v3 usa métodos de gestión de calidad para
+          aprender de éxitos y fracasos pasados, mejorando continuamente la
+          calidad, costo y características de los servicios TI.</p>
+        </div>
+
+      </div>
+
+      <!-- Estrategias de solución -->
+      <div class="strategy-box">
+        <h3 class="strategy-title">🎯 Estrategias de Solución del Proyecto</h3>
+        <div class="strategy-list">
+          <div class="strategy-item">
+            <span class="s-num">01</span>
+            <p>Implementar un marco de gestión (ITIL v3 / ISO 20000) para estandarizar la respuesta ante incidentes y la entrega de servicios TI.</p>
+          </div>
+          <div class="strategy-item">
+            <span class="s-num">02</span>
+            <p>Adoptar ISO 31000 para identificar, evaluar y mitigar riesgos de forma proactiva antes de que se conviertan en fallas costosas.</p>
+          </div>
+          <div class="strategy-item">
+            <span class="s-num">03</span>
+            <p>Aplicar controles de seguridad basados en ISO/IEC 17799 / 27002 para proteger la confidencialidad, integridad y disponibilidad de la información.</p>
+          </div>
+          <div class="strategy-item">
+            <span class="s-num">04</span>
+            <p>Usar Bugzilla y herramientas de monitoreo para registrar incidentes y supervisar continuamente la infraestructura tecnológica.</p>
+          </div>
+          <div class="strategy-item">
+            <span class="s-num">05</span>
+            <p>Elaborar, probar y mantener planes de contingencia y de continuidad del negocio para garantizar la recuperación rápida ante desastres.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =============================================
+       PIE DE PÁGINA
+  ============================================= -->
+  <footer class="footer">
+    <p>⚙️ <strong>Operación y Aseguramiento de Sistemas Informáticos</strong> &mdash; Investigación documental</p>
+    <p class="footer-sub">Elaborado con HTML &amp; CSS puros · Referencias: ITIL, ISO/IEC, Bugzilla, INCIBE, Atlassian</p>
+  </footer>
 
 </body>
 </html>
